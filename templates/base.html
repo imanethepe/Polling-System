@@ -1,0 +1,53 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Jul 25 17:11:45 2023
+
+@author: Imanethepe
+"""
+
+ <!DOCTYPE html>
+ <html lang="en">
+   <head>
+     <meta charset="utf-8">
+     <title>
+       {% block title %}
+         Polling System
+       {% endblock %} 
+     </title>
+     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <!--[if IE]><script
+       src="http://html5shiv.googlecode.com/svn/trunk/html5.js">
+     </script><![endif]-->
+   </head>
+   
+   <body>  
+     <div><!-- container -->
+       <header>
+           <h1>Polling System</h1>
+       </header>       
+       <nav>
+       <ul>
+         <li>
+           <a href="{% url 'polling_question_list' %}">
+             Questions List</a></li>
+       </ul>
+     </nav>
+       <main>
+         {% block content %} 
+           This is default content!
+         {% endblock %}
+       </main>
+       
+     </div><!-- container -->
+    
+     <footer>
+       <p>
+         &copy; 2023
+         <a href="">
+           Imanethepe</a>
+       </p>
+     </footer>
+   </body>
+  
+ </html>

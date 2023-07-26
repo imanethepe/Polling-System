@@ -15,7 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from polling import urls as polling_urls
+from .views import redirect_root
 
+    
 urlpatterns = [
-    path('admin/', admin.site.urls),
+   path('admin/', admin.site.urls),
+   path('', redirect_root),
+   path('polling/', include(polling_urls)), 
 ]
