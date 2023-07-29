@@ -1,10 +1,11 @@
 import datetime
+from django.urls import reverse
 from django.db import models
 from django.utils import timezone
 
 
 class Question(models.Model):
-    """Attributes"""
+    """Attributes: question_text and pub_date"""
 
     question_text = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published')
@@ -15,9 +16,17 @@ class Question(models.Model):
     def was_published_recently(self):
         return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
 
+    def get_absolute_url(self):
+        return reverse('polling_question_detail',
+                       kwargs={'pk': self.pk})
+
+    def get_vote_url(self):
+        return reverse('polling_question_vote',
+                       kwargs={'pk': self.pk})
+
 
 class Choice(models.Model):
-    """Attributes"""
+    """Attributes: question, choice_text and votes"""
 
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     choice_text = models.CharField(max_length=200)

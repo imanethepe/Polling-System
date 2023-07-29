@@ -17,7 +17,7 @@ Created on Tue Jul 25 17:19:04 2023
   <ul> 
     {% for question in latest_question_list %} 
       <li> 
-        <a href=""> 
+        <a href="{{question.get_absolute_url}}"> 
           {{ question.question_text|title }}</a>
       </li>      
      {% empty %}

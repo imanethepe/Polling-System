@@ -1,0 +1,24 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Jul 28 14:44:34 2023
+
+@author: Imanethepe
+"""
+
+ {% extends parent_template|default:"polling/base_polling.html" %}
+
+ {% block title %}
+ {{ block.super }} - QuestionDetail
+ {% endblock %} 
+ 
+ {% block content %}
+
+  <h1>{{ question.question_text }}</h1>
+  <a href="{{question.get_vote_url}}">
+       Voting Choices</a>
+  <ul>
+      {% for choice in question.choice_set.all %}
+        <li>{{ choice.choice_text }}</li>
+      {% endfor %}
+  </ul>
+ {% endblock %}
