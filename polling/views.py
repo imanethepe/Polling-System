@@ -2,6 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import (
     render, get_object_or_404,
     )
+from django.utils import timezone
 from django.views.generic import View
 from django.urls import reverse_lazy, reverse
 from .models import Question, Choice
@@ -15,7 +16,8 @@ class QuestionList(View):
     template_name = 'polling/question_list.html'
 
     def get(self, request):
-        latest_question_list = self.model.objects.order_by('-pub_date')[:5]
+        latest_question_list = self.model.objects.filter(
+            pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
         context = {'latest_question_list': latest_question_list}
         return render(request, self.template_name, context)
 
@@ -27,7 +29,8 @@ class QuestionDetail(View):
     template_name = 'polling/question_detail.html'
 
     def get(self, request, pk):
-        question = get_object_or_404(self.model, pk=pk)
+        question = get_object_or_404(
+            self.model, pub_date__lte=timezone.now(), pk=pk)
         return render(
           request,
           self.template_name,
