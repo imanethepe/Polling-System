@@ -47,7 +47,7 @@ class QuestionVote(View):
 
     def get(self, request, pk):
         question = get_object_or_404(
-            self.model, pk=pk)
+            self.model, pub_date__lte=timezone.now(), pk=pk)
         context = {
             'form': self.form_class(instance=question),
             'question': question,
@@ -56,7 +56,7 @@ class QuestionVote(View):
 
     def post(self, request, pk):
         question = get_object_or_404(
-            self.model, pk=pk)
+            self.model, pub_date__lte=timezone.now(), pk=pk)
 
         try:
             selected_choice = question.choice_set.get(pk=request.POST['choice'])
@@ -84,7 +84,7 @@ class QuestionResult(View):
 
     def get(self, request, pk):
         question = get_object_or_404(
-            self.model, pk=pk)
+            self.model, pub_date__lte=timezone.now(), pk=pk)
         return render(
             request,
             self.template_name,

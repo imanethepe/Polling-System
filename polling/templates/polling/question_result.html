@@ -12,8 +12,9 @@ Created on Sat Jul 29 14:36:59 2023
 {% endblock %}
 
 {% block content %}
-  <h1>{{ question.question_text }}</h1>
 
+  <h1>{{ question.question_text }}</h1>
+   
     <ul>
       {% for choice in question.choice_set.all %}
         <li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}</li>

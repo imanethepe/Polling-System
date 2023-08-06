@@ -58,6 +58,18 @@ class QuestionListViewTests(TestCase):
         self.assertContains(response, "No polls are available.")
         self.assertQuerysetEqual(response.context['latest_question_list'], [])
 
+    def test_no_choice(self):
+        """
+        If no choice exists, an appropriate message is displayed.
+        """
+
+        create_question(question_text="Past question.", days=-1)
+        response = self.client.get(reverse('polling_question_list'))
+        question_list = response.context['latest_question_list']
+        for question in question_list:
+            choice_list = question.choice_set.all()
+            self.assertEqual(choice_list.count(), 0)
+
     def test_past_question(self):
         """
         Questions with a pub_date in the past are displayed on the
