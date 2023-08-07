@@ -4,7 +4,7 @@ from django.shortcuts import (
     )
 from django.utils import timezone
 from django.views.generic import View
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse
 from .models import Question, Choice
 from .forms import QuestionForm
 
@@ -16,8 +16,9 @@ class QuestionList(View):
     template_name = 'polling/question_list.html'
 
     def get(self, request):
-        latest_question_list = self.model.objects.filter(
-            pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
+        latest_question_list = self.model.objects.exclude(
+         choice__isnull=True).filter(
+         pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
         context = {'latest_question_list': latest_question_list}
         return render(request, self.template_name, context)
 

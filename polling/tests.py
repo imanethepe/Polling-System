@@ -76,6 +76,7 @@ class QuestionListViewTests(TestCase):
         question_list page.
         """
         question = create_question(question_text="Past question.", days=-30)
+        question.choice_set.create(choice_text='choice1')
         response = self.client.get(reverse('polling_question_list'))
         self.assertQuerysetEqual(
             response.context['latest_question_list'],
@@ -87,7 +88,8 @@ class QuestionListViewTests(TestCase):
         Questions with a pub_date in the future aren't displayed on
         the question_list page.
         """
-        create_question(question_text="Future question.", days=30)
+        question1 = create_question(question_text="Future question.", days=30)
+        question1.choice_set.create(choice_text='choice1')
         response = self.client.get(reverse('polling_question_list'))
         self.assertContains(response, "No polls are available.")
         self.assertQuerysetEqual(response.context['latest_question_list'], [])
@@ -98,7 +100,9 @@ class QuestionListViewTests(TestCase):
         are displayed.
         """
         question1 = create_question(question_text="Past question.", days=-30)
+        question1.choice_set.create(choice_text='choice1')
         question2 = create_question(question_text="Future question.", days=30)
+        question2.choice_set.create(choice_text='choice1')
         response = self.client.get(reverse('polling_question_list'))
         self.assertQuerysetEqual(
             response.context['latest_question_list'],
@@ -110,7 +114,9 @@ class QuestionListViewTests(TestCase):
         The question_list page may display multiple questions.
         """
         question1 = create_question(question_text="Past question 1.", days=-30)
+        question1.choice_set.create(choice_text='choice1')
         question2 = create_question(question_text="Past question 2.", days=-5)
+        question2.choice_set.create(choice_text='choice1')
         response = self.client.get(reverse('polling_question_list'))
         self.assertQuerysetEqual(
             response.context['latest_question_list'],
