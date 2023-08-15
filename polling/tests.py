@@ -145,7 +145,6 @@ class QuestionDetailViewTests(TestCase):
         """
         past_question = create_question(
             question_text='Past Question.', days=-5)
-#        url = "past_question.get_absolute_url()"
         url = reverse(
             'polling_question_detail', kwargs={'pk': past_question.pk})
         response = self.client.get(url)
